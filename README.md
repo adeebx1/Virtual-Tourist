@@ -36,7 +36,7 @@ Once the images have all been downloaded, the app should enable the New Collecti
 **Collection List View Contoller**: If the user would like to save the collection, he can press of the save button which will take him to this view. First, He will be aske d to enter a name for the collection to be saved. then, the saved collection will be added to the table list presnting the name of the collection and  number of photos in that collection.
 
 <img src="./virtual-tourist-photos/ask-for-collection-name.png" width="50%" height="100%" />
-<img src="./virtual-tourist-photos/collection-saved.png" width="50%" height="100%" />
+<img src="./virtual-tourist-photos/collectionsList.png" width="50%" height="100%" />
 
 **Collection Details View Controller**: Here the user can see the photos of saved collection
 
