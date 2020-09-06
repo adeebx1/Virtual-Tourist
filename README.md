@@ -40,7 +40,7 @@ Once the images have all been downloaded, the app should enable the New Collecti
 
 **Collection Details View Controller**: Here the user can see the photos of saved collection
 
-<img src="./virtual-tourist-photos/collection-details.png" width="50%" height="100%" />
+<img src="./virtual-tourist-photos/collection-saved.png" width="50%" height="100%" />
 <img src="./virtual-tourist-photos/single-photo.png" width="50%" height="100%" />
 
 ## Requirements
@@ -50,23 +50,19 @@ Once the images have all been downloaded, the app should enable the New Collecti
 
 ## Installation
 
-Open terminal and change you current directory
-
-`$ cd /Users/user/project_folders`
-
 Clone project repository
 
 `$ git clone https://github.com/adeebx1/Virtual-Tourist`
 
 
-If you dont have cocoapods installed, install it and run the following command in the ``/Users/user/project_folders``:
+If you dont have cocoapods installed, install it and run the following command in the directory where you cloned the porject:
 
 `$ pod install`
 
 After installing the pods you can open the project in Xcode and run it.
 
 #### CocoaPods
-Installed CocoaPods `Kingfisher`, `alamofire`, and `swiftyjson`  :
+Installed CocoaPods `Kingfisher`, `Alamofire`, and `Swiftyjson`  :
 
 ```ruby
 pod 'Kingfisher', '~> 5.0'
