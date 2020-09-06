@@ -16,9 +16,27 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         dataController.load()
-        let navigationController = window?.rootViewController as! UINavigationController
-        let mapViewController = navigationController.topViewController as! MapViewController
+        
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        let mapNavigationController = storyBoard.instantiateViewController(withIdentifier: "MapNC") as! UINavigationController
+        let collectionNavigationController = storyBoard.instantiateViewController(withIdentifier: "CollectionNC") as! UINavigationController
+
+
+        
+        let tabBarController = UITabBarController()
+        window!.rootViewController = tabBarController
+    
+        
+        tabBarController.viewControllers = [mapNavigationController,collectionNavigationController]
+        
+        let mapViewController = mapNavigationController.topViewController as! MapViewController
+        let collectionViewController = collectionNavigationController.topViewController as! CollectionsListViewController
+        
+        
         mapViewController.dataController = dataController
+        collectionViewController.dataController = dataController
+        
+        
         guard let _ = (scene as? UIWindowScene) else { return }
     }
 

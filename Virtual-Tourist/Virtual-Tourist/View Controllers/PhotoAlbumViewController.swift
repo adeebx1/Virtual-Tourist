@@ -17,6 +17,8 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate {
     
     var dataController:DataController!
     var pin:Pin!
+    var collection: PhotoCollection!
+
     var fetchedResultsController:NSFetchedResultsController<Photo>!
     
     @IBOutlet weak var mapView: MKMapView!
@@ -29,7 +31,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate {
         fetchRequest.predicate = predicate
         let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
         fetchRequest.sortDescriptors = [sortDescriptor]
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "photo")
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsController.delegate = self
         do {
             try fetchedResultsController.performFetch()
@@ -68,7 +70,12 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate {
         
         
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupFetchedResulsController()
 
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         fetchedResultsController = nil
@@ -80,7 +87,9 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate {
         photo.creationDate = Date()
         photo.pin = pin
         try? dataController.viewContext.save()
+        
     }
+    
     func deletePhoto(_ photo: Photo){
         dataController.viewContext.delete(photo)
         //make sure to save chnages after deletion
@@ -126,18 +135,28 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate {
         if let photos = fetchedResultsController.fetchedObjects{
             for photo in photos {
                 dataController.viewContext.delete(photo)
-                //make sure to save chnages after deletion
-                do {
-                    try dataController.viewContext.save()
-                }
-                catch{
-                    print("Error in saving view context change!")
-                }
+            }
+            do {
+                try dataController.viewContext.save()
+            }
+            catch{
+                print("Error in saving view context change!")
             }
         }
-        //then we get new collection
         getPhotoCollection()
     }
+    
+
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "toCollectionTable") {
+            let vc : CollectionsListViewController = segue.destination as! CollectionsListViewController
+            vc.isSaveButtonClick = true
+            vc.dataController = dataController
+            vc.pin = pin
+        }
+    }
+    
     
     
     
@@ -208,7 +227,6 @@ extension PhotoAlbumViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath:IndexPath) {
         let photoToDelete = fetchedResultsController.object(at: indexPath)
         deletePhoto(photoToDelete)
-        
     }
     
 }

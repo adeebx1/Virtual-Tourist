@@ -4,7 +4,13 @@
         <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="data" optional="YES" attributeType="Binary"/>
         <attribute name="url" optional="YES" attributeType="String"/>
+        <relationship name="photoCollection" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PhotoCollection" inverseName="photos" inverseEntity="PhotoCollection"/>
         <relationship name="pin" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Pin" inverseName="photos" inverseEntity="Pin"/>
+    </entity>
+    <entity name="PhotoCollection" representedClassName="PhotoCollection" syncable="YES" codeGenerationType="class">
+        <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="photos" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Photo" inverseName="photoCollection" inverseEntity="Photo"/>
     </entity>
     <entity name="Pin" representedClassName="Pin" syncable="YES" codeGenerationType="class">
         <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -13,7 +19,8 @@
         <relationship name="photos" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Photo" inverseName="pin" inverseEntity="Photo"/>
     </entity>
     <elements>
-        <element name="Photo" positionX="188.23828125" positionY="27.42578125" width="128" height="103"/>
+        <element name="Photo" positionX="188.23828125" positionY="27.42578125" width="128" height="118"/>
         <element name="Pin" positionX="-18" positionY="27" width="128" height="103"/>
+        <element name="PhotoCollection" positionX="20.73046875" positionY="-105.84375" width="128" height="88"/>
     </elements>
 </model>
