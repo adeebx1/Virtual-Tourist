@@ -17,6 +17,8 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate {
     
     var dataController:DataController!
     var pin:Pin!
+    var collection: PhotoCollection!
+
     var fetchedResultsController:NSFetchedResultsController<Photo>!
     
     @IBOutlet weak var mapView: MKMapView!
@@ -68,7 +70,12 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate {
         
         
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupFetchedResulsController()
 
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         fetchedResultsController = nil
@@ -80,7 +87,9 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate {
         photo.creationDate = Date()
         photo.pin = pin
         try? dataController.viewContext.save()
+        
     }
+    
     func deletePhoto(_ photo: Photo){
         dataController.viewContext.delete(photo)
         //make sure to save chnages after deletion
@@ -138,6 +147,36 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate {
         //then we get new collection
         getPhotoCollection()
     }
+    
+    func clonePhotos(){
+        if let photos = fetchedResultsController.fetchedObjects{
+            for photo in photos {
+                let image = Photo(context: dataController.viewContext)
+                image.creationDate = Date()
+                image.photoCollection = collection
+                //make sure to save chnages after deletion
+                do {
+                    try dataController.viewContext.save()
+                }
+                catch{
+                    print("Error in saving view context change!")
+                }
+            }
+        }
+    }
+
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "toCollectionTable") {
+            // pass data to next view controller
+            let vc : CollectionsListViewController = segue.destination as! CollectionsListViewController
+            clonePhotos()
+            vc.isSaveButtonClick = true
+            vc.dataController = dataController
+            vc.collection = collection
+        }
+    }
+    
     
     
     
@@ -208,6 +247,16 @@ extension PhotoAlbumViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath:IndexPath) {
         let photoToDelete = fetchedResultsController.object(at: indexPath)
         deletePhoto(photoToDelete)
+        
+        //        let photoToSave = fetchedResultsController.object(at: indexPath)
+        //        saveImage(photoToSave)
+        
+        ///
+        //        let detailController = self.storyboard!.instantiateViewController(withIdentifier: "CollectionPhotoCell") as! CollectionPhotoCell
+        //        detailController.image = fetchedResultsController.object(at: indexPath)
+        //        self.navigationController!.pushViewController(detailController, animated: true)
+        
+        ///
         
     }
     
