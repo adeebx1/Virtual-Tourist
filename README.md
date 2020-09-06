@@ -62,7 +62,7 @@ If you dont have cocoapods installed, install it and run the following command i
 After installing the pods you can open the project in Xcode and run it.
 
 #### CocoaPods
-Installed CocoaPods `Kingfisher`, `Alamofire`, and `Swiftyjson`  :
+Installed CocoaPods `Kingfisher`, `Alamofire`, and `SwiftyJSON`  :
 
 ```ruby
 pod 'Kingfisher', '~> 5.0'
