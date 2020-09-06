@@ -30,7 +30,7 @@ class CollectionsListViewController: UIViewController, UITableViewDataSource {
         let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
         fetchRequest.sortDescriptors = [sortDescriptor]
         
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "collections")
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsController.delegate = self
         do {
             try fetchedResultsController.performFetch()
@@ -119,19 +119,21 @@ class CollectionsListViewController: UIViewController, UITableViewDataSource {
         let collection = PhotoCollection(context: dataController.viewContext)
         collection.name = name
         collection.creationDate = Date()
-        for _ in pin.photos! {
+        for originalPhoto in pin.photos?.allObjects as! [Photo] {
             
             let photo = Photo(context: dataController.viewContext)
             photo.creationDate = Date()
             photo.photoCollection = collection
-            do {
-                try dataController.viewContext.save()
-            }
-            catch{
-                print("Error in saving view context change!")
-            }
+            photo.data = originalPhoto.data
+            
+            
         }
-        try? dataController.viewContext.save()
+        do {
+            try dataController.viewContext.save()
+        }
+        catch{
+            print("Error in saving view context change!")
+        }
         
     }
     

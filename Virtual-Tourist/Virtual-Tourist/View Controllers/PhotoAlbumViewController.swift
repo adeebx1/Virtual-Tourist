@@ -31,7 +31,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate {
         fetchRequest.predicate = predicate
         let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
         fetchRequest.sortDescriptors = [sortDescriptor]
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "photo")
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsController.delegate = self
         do {
             try fetchedResultsController.performFetch()
@@ -135,35 +135,17 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate {
         if let photos = fetchedResultsController.fetchedObjects{
             for photo in photos {
                 dataController.viewContext.delete(photo)
-                //make sure to save chnages after deletion
-                do {
-                    try dataController.viewContext.save()
-                }
-                catch{
-                    print("Error in saving view context change!")
-                }
+            }
+            do {
+                try dataController.viewContext.save()
+            }
+            catch{
+                print("Error in saving view context change!")
             }
         }
-        //then we get new collection
         getPhotoCollection()
     }
     
-    func clonePhotos(){
-        if let photos = fetchedResultsController.fetchedObjects{
-            for photo in photos {
-                let image = Photo(context: dataController.viewContext)
-                image.creationDate = Date()
-                image.photoCollection = collection
-                //make sure to save chnages after deletion
-                do {
-                    try dataController.viewContext.save()
-                }
-                catch{
-                    print("Error in saving view context change!")
-                }
-            }
-        }
-    }
 
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
