@@ -150,7 +150,6 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "toCollectionTable") {
-            // pass data to next view controller
             let vc : CollectionsListViewController = segue.destination as! CollectionsListViewController
             vc.isSaveButtonClick = true
             vc.dataController = dataController
@@ -228,17 +227,6 @@ extension PhotoAlbumViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath:IndexPath) {
         let photoToDelete = fetchedResultsController.object(at: indexPath)
         deletePhoto(photoToDelete)
-        
-        //        let photoToSave = fetchedResultsController.object(at: indexPath)
-        //        saveImage(photoToSave)
-        
-        ///
-        //        let detailController = self.storyboard!.instantiateViewController(withIdentifier: "CollectionPhotoCell") as! CollectionPhotoCell
-        //        detailController.image = fetchedResultsController.object(at: indexPath)
-        //        self.navigationController!.pushViewController(detailController, animated: true)
-        
-        ///
-        
     }
     
 }

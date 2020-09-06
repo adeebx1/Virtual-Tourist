@@ -43,7 +43,6 @@ class CollectionDetailsViewController: UIViewController,UICollectionViewDelegate
         super.viewDidLoad()
 
         navigationItem.title = collection.name
-//        navigationItem.rightBarButtonItem = editButtonItem
         collectionView.dataSource = self
         collectionView.delegate = self
         setupFetchedResultsController()

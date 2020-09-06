@@ -41,7 +41,6 @@ class CollectionsListViewController: UIViewController, UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        navigationItem.rightBarButtonItem = editButtonItem
         
         setupFetchedResultsController()
         if isSaveButtonClick == true {
@@ -63,22 +62,7 @@ class CollectionsListViewController: UIViewController, UITableViewDataSource {
         super.viewDidDisappear(animated)
         fetchedResultsController = nil
     }
-    
-    // -------------------------------------------------------------------------
-    // MARK: - Actions
-    
-    
-    
-    
-    //    @IBAction func addTapped(sender: Any) {
-    //        presentNewcollectionAlert()
-    //    }
-    //
-    // -------------------------------------------------------------------------
-    // MARK: - Editing
-    
-    /// Display an alert prompting the user to name a new collection. Calls
-    /// `addcollection(name:)`.
+
     func presentNewcollectionAlert() {
         let alert = UIAlertController(title: "New Collection", message: "Enter a name for this collection", preferredStyle: .alert)
         
@@ -110,11 +94,6 @@ class CollectionsListViewController: UIViewController, UITableViewDataSource {
     }
     
     
-    
-    /// Adds a new collection to the end of the `collections` array
-    
-    
-    
     func addCollection(name: String) {
         let collection = PhotoCollection(context: dataController.viewContext)
         collection.name = name
@@ -137,25 +116,17 @@ class CollectionsListViewController: UIViewController, UITableViewDataSource {
         
     }
     
-    /// Deletes the collection at the specified index path
     func deletecollection(at indexPath: IndexPath) {
         let collectionToDelete = fetchedResultsController.object(at: indexPath)
         dataController.viewContext.delete(collectionToDelete)
         try? dataController.viewContext.save()
     }
     
-    //    func updateEditButtonState() {
-    //        if let sections = fetchedResultsController.sections {
-    //            navigationItem.rightBarButtonItem?.isEnabled = sections[0].numberOfObjects > 0
-    //        }
-    //    }
-    
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         tableView.setEditing(editing, animated: animated)
     }
     
-    // -------------------------------------------------------------------------
     // MARK: - Table view data source
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -184,7 +155,7 @@ class CollectionsListViewController: UIViewController, UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         switch editingStyle {
         case .delete: deletecollection(at: indexPath)
-        default: () // Unsupported
+        default: () 
         }
     }
     
