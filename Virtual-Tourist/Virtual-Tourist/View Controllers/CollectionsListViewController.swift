@@ -19,11 +19,11 @@ class CollectionsListViewController: UIViewController, UITableViewDataSource {
     
     var pin:Pin!
     var collection: PhotoCollection!
-
+    
     var fetchedResultsController:NSFetchedResultsController<PhotoCollection>!
     
     var isSaveButtonClick:Bool!
-
+    
     
     fileprivate func setupFetchedResultsController() {
         let fetchRequest:NSFetchRequest<PhotoCollection> = PhotoCollection.fetchRequest()
@@ -41,7 +41,7 @@ class CollectionsListViewController: UIViewController, UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        navigationItem.rightBarButtonItem = editButtonItem
+        //        navigationItem.rightBarButtonItem = editButtonItem
         
         setupFetchedResultsController()
         if isSaveButtonClick == true {
@@ -70,10 +70,10 @@ class CollectionsListViewController: UIViewController, UITableViewDataSource {
     
     
     
-//    @IBAction func addTapped(sender: Any) {
-//        presentNewcollectionAlert()
-//    }
-//    
+    //    @IBAction func addTapped(sender: Any) {
+    //        presentNewcollectionAlert()
+    //    }
+    //
     // -------------------------------------------------------------------------
     // MARK: - Editing
     
@@ -109,19 +109,30 @@ class CollectionsListViewController: UIViewController, UITableViewDataSource {
         
     }
     
-
+    
     
     /// Adds a new collection to the end of the `collections` array
     
     
- 
+    
     func addCollection(name: String) {
         let collection = PhotoCollection(context: dataController.viewContext)
         collection.name = name
         collection.creationDate = Date()
-        //collection.photos = pin.photos
+        for _ in pin.photos! {
+            
+            let photo = Photo(context: dataController.viewContext)
+            photo.creationDate = Date()
+            photo.photoCollection = collection
+            do {
+                try dataController.viewContext.save()
+            }
+            catch{
+                print("Error in saving view context change!")
+            }
+        }
         try? dataController.viewContext.save()
-
+        
     }
     
     /// Deletes the collection at the specified index path
@@ -131,11 +142,11 @@ class CollectionsListViewController: UIViewController, UITableViewDataSource {
         try? dataController.viewContext.save()
     }
     
-//    func updateEditButtonState() {
-//        if let sections = fetchedResultsController.sections {
-//            navigationItem.rightBarButtonItem?.isEnabled = sections[0].numberOfObjects > 0
-//        }
-//    }
+    //    func updateEditButtonState() {
+    //        if let sections = fetchedResultsController.sections {
+    //            navigationItem.rightBarButtonItem?.isEnabled = sections[0].numberOfObjects > 0
+    //        }
+    //    }
     
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)

@@ -170,10 +170,9 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate {
         if (segue.identifier == "toCollectionTable") {
             // pass data to next view controller
             let vc : CollectionsListViewController = segue.destination as! CollectionsListViewController
-            clonePhotos()
             vc.isSaveButtonClick = true
             vc.dataController = dataController
-            vc.collection = collection
+            vc.pin = pin
         }
     }
     
